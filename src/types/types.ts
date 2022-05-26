@@ -1,6 +1,4 @@
-import { clear } from "console";
-
-type RobotType = "Cleaner" | "Waiter" | "Developer";
+export type RobotType = "Cleaner" | "Waiter" | "Developer";
 
 interface IRobot {
   name: string;
@@ -15,7 +13,7 @@ class Robot implements IRobot {
   decreaserID: NodeJS.Timer;
 
   constructor(public type: RobotType) {
-    this.battery = 15;
+    this.battery = 100;
     this.name = this.randomName();
     this.decreseaBattery();
   }
