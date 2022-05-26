@@ -1,3 +1,5 @@
+import { clear } from "console";
+
 type RobotType = "Cleaner" | "Waiter" | "Developer";
 
 interface IRobot {
@@ -10,10 +12,12 @@ interface IRobot {
 class Robot implements IRobot {
   battery;
   name;
+  decreaserID: NodeJS.Timer;
 
   constructor(public type: RobotType) {
-    this.battery = 100;
+    this.battery = 15;
     this.name = this.randomName();
+    this.decreseaBattery();
   }
 
   reset() {
@@ -22,24 +26,27 @@ class Robot implements IRobot {
   }
 
   work() {
-    let message: string;
+    if (this.battery > 0) {
+      let message: string;
 
-    switch (this.type) {
-      case "Cleaner":
-        message = "Larala larita, I clean my little house";
-        break;
-      case "Waiter":
-        message = "Do you feel like a mini of fuet?";
-        break;
-      case "Developer":
-        message = "JavaScript is cool - I develop with JavaScript -> I'm cool";
-        break;
+      switch (this.type) {
+        case "Cleaner":
+          message = "Larala larita, I clean my little house";
+          break;
+        case "Waiter":
+          message = "Do you feel like a mini of fuet?";
+          break;
+        case "Developer":
+          message =
+            "JavaScript is cool - I develop with JavaScript -> I'm cool";
+          break;
 
-      default:
-        message = "";
-        break;
+        default:
+          message = "";
+          break;
+      }
+      console.log(message);
     }
-    console.log(message);
   }
 
   randomName(): string {
@@ -55,6 +62,20 @@ class Robot implements IRobot {
       name += Math.floor(Math.random() * (99 - 10) + 10);
     }
     return name;
+  }
+
+  decreseaBattery(): void {
+    this.decreaserID = setInterval(() => {
+      this.battery -= 1;
+      console.log(this.battery);
+      if (this.battery === 10) {
+        console.log("I'm running low on battery");
+      }
+      if (this.battery === 0) {
+        console.log("I'm out of battery");
+        clearInterval(this.decreaserID);
+      }
+    }, 1000);
   }
 }
 
