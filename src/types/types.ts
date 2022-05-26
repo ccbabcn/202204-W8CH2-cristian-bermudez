@@ -9,43 +9,53 @@ interface IRobot {
 }
 class Robot implements IRobot {
   battery;
+  name;
 
-  constructor(
-    public name: string,
-    public type: RobotType,
-    private message: string
-  ) {
+  constructor(public type: RobotType) {
+    this.battery = 100;
+    this.name = this.randomName();
+  }
+
+  reset() {
+    this.name = this.randomName();
     this.battery = 100;
   }
 
-  reset() {}
-
   work() {
-    console.log(this.message);
+    let message: string;
+
+    switch (this.type) {
+      case "Cleaner":
+        message = "Larala larita, I clean my little house";
+        break;
+      case "Waiter":
+        message = "Do you feel like a mini of fuet?";
+        break;
+      case "Developer":
+        message = "JavaScript is cool - I develop with JavaScript -> I'm cool";
+        break;
+
+      default:
+        message = "";
+        break;
+    }
+    console.log(message);
+  }
+
+  randomName(): string {
+    let name: string = "";
+
+    const letters: string = "ABCDEFGHIJKLMNPQRSTUVWXYZ";
+
+    for (let index = 0; index < 4; index++) {
+      if (index < 3) {
+        name += letters.charAt(Math.floor(Math.random() * letters.length));
+        continue;
+      }
+      name += Math.floor(Math.random() * (99 - 10) + 10);
+    }
+    return name;
   }
 }
 
-export class Cleaner extends Robot {
-  type: RobotType;
-  constructor(public name: string) {
-    super(name, "Cleaner", "Larala larita, I clean my little house");
-  }
-}
-
-export class Waiter extends Robot {
-  type: RobotType;
-  constructor(public name: string) {
-    super(name, "Waiter", "Do you feel like a mini of fuet?");
-  }
-}
-
-export class Developer extends Robot {
-  type: RobotType;
-  constructor(public name: string) {
-    super(
-      name,
-      "Developer",
-      "JavaScript is cool - I develop with JavaScript -> I'm cool"
-    );
-  }
-}
+export default Robot;
